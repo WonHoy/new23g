@@ -21,6 +21,13 @@ def joan_index(request):
     }
     return render(request, template, context)
 
+def joan_index1(request):
+    template = 'joint_analysis/joan_index.html'
+    context = {
+
+    }
+    return render(request, template, context)
+
 
 @csrf_exempt
 def joan_calc(request):
