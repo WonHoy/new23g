@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% csrf_token %}
+<head>
+    <meta charset="UTF-8">
+    <title>Joint Analysis</title>
+    <link href={%static "css/bootstrap.min.css" %} rel="stylesheet">
+    <link href={%static "css/joan.css" %} rel="stylesheet">
+</head>
+<body class="bg-light">
+{% csrf_token %}
+<div class="container">
+    <div class="row">
+        <div class="col-6 p-3">
+            <div class="parts mb-3">
+                <h5 class="parts-title">Parts</h5>
+                <div class="plates__amount row">
+                    <div class="col-5">
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="parts-amount">Number of parts</label>
+                            <select class="form-select" id="parts-amount">
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table-parts table table-bordered table-sm mb-2">
+                    <thead class="table-success text-center">
+                    <tr>
+                        <td class="col1 col-1"></td>
+                        <td class="col2 col-3">Selection option</td>
+                        <td class="col3 col">Material</td>
+                        <td class="col4 col-2">E, psi</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="part">
+                        <td class="col1">Part a</td>
+                        <td class="col2">
+                            <div class="dropdown">
+                                <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Define material with
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item material-from-DB" href="#exampleModal" data-bs-toggle="modal">Database</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item material-user-defined" href="#">User data</a>
+                                    </li>
+                                </ul>
+                            </div>
+<!--                            <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">-->
+<!--                                Choose material from Database-->
+<!--                            </button>-->
+<!--                            <select name="material-a" id="material-a-select" class="material-select">-->
+<!--                                <option value="2024">2024</option>-->
+<!--                                <option value="7075">7075</option>-->
+<!--                                <option value="7075">user defined</option>-->
+<!--                            </select>-->
+                        <td class="col3"></td>
+                        <td class="col4"></td>
+                    </tr>
+                    <tr class="part">
+                        <td class="col1">Part b</td>
+                        <td class="col2">
+                            <div class="dropdown">
+                                <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Define material with
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item material-from-DB" href="#exampleModal" data-bs-toggle="modal">Database</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item material-user-defined" href="#">User data</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        <td class="col3"></td>
+                        <td class="col4"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="nodes mb-3">
+                <h5 class="nodes-title">Nodes</h5>
+                <!--                <div class="nodes__amount row">-->
+                <!--                    <div class="col-8">-->
+                <!--                        <div class="input-group mb-3">-->
+                <!--                            <span class="input-group-text">Number of nodes</span>-->
+                <!--                            <input type="number" class="form-control" id="nodes-amount">-->
+                <!--                            <label for="nodes-amount" class="col-form-label ps-2">Введите число от 2 до 22</label>-->
+                <!--                        </div>-->
+
+                <!--                    </div>-->
+                <!--                </div>-->
+
+                <table class="table-nodes table table-bordered table-sm">
+                    <thead class="table-success text-center">
+                    <tr>
+                        <td class="col1 align-middle col-2" rowspan="2">Node ID</td>
+                        <td class="col2 align-middle col-2" rowspan="2">Coord X, in</td>
+                        <td class="col3 col-2">Thickness, in</td>
+                        <td class="col4 col-3">
+                            <select name="widthArea" id="width-area-select">
+                                <option value="width">Width, in</option>
+                                <option value="area">Bypass Area, in^2</option>
+                            </select>
+                        </td>
+                        <td class="col5 col-3" id="widthAreaCalc">Bypass Area, in^2</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="node">
+                        <td class="col1"></td>
+                        <td class="col2" contenteditable="true"></td>
+                        <td class="col3 node-thk" contenteditable="true"></td>
+                        <td class="col4 node-width-area" contenteditable="true"></td>
+                        <td class="col5 node-width-area-calc"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="plates mb-3">
+                <h5 class="plates-title">Plates</h5>
+                <table class="table-plates table table-bordered table-sm">
+                    <thead class="table-success text-center">
+                    <tr>
+                        <td class="col1 col-4">Connected Nodes</td>
+                        <td class="col2 col-4">Plate</td>
+                        <td class="col3 col-4" colspan="4">E, psi</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="plate">
+                        <td class="col1" contenteditable="true"></td>
+                        <td class="col2" contenteditable="true"></td>
+                        <td class="col3" contenteditable="true"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="spacings mb-3">
+                <h5 class="spacings-title">Spacings</h5>
+                <table class="table-spacings table table-bordered table-sm">
+                    <thead class="table-success text-center">
+                    <tr>
+                        <td class="col1 align-middle"></td>
+                        <td class="col2 align-middle">Spacing, in</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="spacing">
+                        <td class="col1 col-6">X1-2</td>
+                        <td class="col2 col-6" contenteditable="true">0.750</td>
+                    </tr>
+                    <tr class="spacing">
+                        <td class="col1">X2-3</td>
+                        <td class="col2" contenteditable="true">0.750</td>
+                    </tr>
+                    <tr class="spacing">
+                        <td class="col1">X3-4</td>
+                        <td class="col2" contenteditable="true">0.750</td>
+                    </tr>
+                    <tr class="spacing">
+                        <td class="col1">X4-5</td>
+                        <td class="col2" contenteditable="true">0.750</td>
+                    </tr>
+                    <tr class="spacing">
+                        <td class="col1">X5-6</td>
+                        <td class="col2" contenteditable="true">0.750</td>
+                    </tr>
+                    <tr class="spacing">
+                        <td class="col1">X6-7</td>
+                        <td class="col2" contenteditable="true">0.750</td>
+                    </tr>
+                    <tr class="spacing">
+                        <td class="col1">X7-8</td>
+                        <td class="col2" contenteditable="true">0.750</td>
+                    </tr>
+                    <tr class="spacing">
+                        <td class="col1">X8-9</td>
+                        <td class="col2" contenteditable="true">0.750</td>
+                    </tr>
+                    <tr class="spacing">
+                        <td class="col1">X9-10</td>
+                        <td class="col2" contenteditable="true">0.750</td>
+                    </tr>
+                    <tr class="spacing">
+                        <td class="col1">X10-11</td>
+                        <td class="col2" contenteditable="true">0.750</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="fasteners mb-3">
+                <h5 class="fasteners-title">Fasteners</h5>
+                <table class="table-fasteners table table-bordered table-sm">
+                    <thead class="table-success text-center align-middle">
+                    <tr>
+                        <td class="col1 col-2">Connected Nodes</td>
+                        <td class="col2 col-2">Fastener Type</td>
+                        <td class="col3 col-2">Fastener P/N</td>
+                        <td class="col4 col-1">Nom dia, in</td>
+                        <td class="col5 col-1">Dfast, in</td>
+                        <td class="col6 col-1">Dhole, in</td>
+                        <td class="col7 col-1">Ebb, psi</td>
+                        <td class="col8 col-1">Gb, psi</td>
+                        <td class="col9 col-1">Spacing, in</td>
+                        <td class="col10 col-1">Quantity</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="fastener">
+                        <td class="col1" contenteditable="true"></td>
+                        <td class="col2" contenteditable="true">
+                            <select name="type1" id="type1-select" class="fastener-type">
+                                <option value="rivet">rivet</option>
+                                <option value="bolt">bolt</option>
+                            </select>
+                        </td>
+                        <td class="col3" contenteditable="true">
+<!--                            <select name="fastener1" id="fastener1-select" class="fastener-select">-->
+<!--                                <option value="BACR15GF">BACR15GF</option>-->
+<!--                                <option value="BACB30VU" selected>BACB30VU</option>-->
+<!--                                <option value="BACB30FN">BACB30FN</option>-->
+<!--                            </select>-->
+                        </td>
+                        <td class="col4" contenteditable="true">
+<!--                            <select name="nom-dia1" id="nom-dia1-select" class="fastener-nom-dia">-->
+<!--                                <option value="5">5</option>-->
+<!--                                <option value="6">6</option>-->
+<!--                                <option value="8">8</option>-->
+<!--                            </select>-->
+                        </td>
+                        <td class="col5" contenteditable="true"></td>
+                        <td class="col6" contenteditable="true"></td>
+                        <td class="col7" contenteditable="true"></td>
+                        <td class="col8" contenteditable="true"></td>
+                        <td class="col9" contenteditable="true">1</td>
+                        <td class="col10" contenteditable="true">1</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="reactions mb-3">
+                <h5 class="reactions-title">Reactions</h5>
+                <table class="table-reactions table table-bordered table-sm">
+                    <thead class="table-success text-center">
+                    <tr>
+                        <td class="col1 align-middle col-6">Node</td>
+                        <td class="col2 align-middle col-6">Force, lb</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="reaction">
+                        <td class="col1"></td>
+                        <td class="col2" contenteditable="true"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="loads mb-3">
+                <h5 class="loads-title">Loads</h5>
+                <table class="table-loads table table-bordered table-sm">
+                    <thead class="table-success text-center">
+                    <tr>
+                        <td class="col1 align-middle col-6">Node</td>
+                        <td class="col2 align-middle col-6">Value, lb</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="load">
+                        <td class="col1"></td>
+                        <td class="col2" contenteditable="true"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="col-6 p-3">
+
+            <div class="plot">
+                <!-- <div id="output">Кликай по холсту!</div> -->
+                <div class="canvas-wrapper mt-3">
+                    <canvas id="canvas"></canvas>
+                    <input type="number" id="spacing1-2" class="spacing-input" value="0.750">
+                    <input type="number" id="spacing2-3" class="spacing-input" value="0.750">
+                    <input type="number" id="spacing3-4" class="spacing-input" value="0.750">
+                    <input type="number" id="spacing4-5" class="spacing-input" value="0.750">
+                    <input type="number" id="spacing5-6" class="spacing-input" value="0.750">
+                    <input type="number" id="spacing6-7" class="spacing-input" value="0.750">
+                    <input type="number" id="spacing7-8" class="spacing-input" value="0.750">
+                    <input type="number" id="spacing8-9" class="spacing-input" value="0.750">
+                    <input type="number" id="spacing9-10" class="spacing-input" value="0.750">
+                    <input type="number" id="spacing10-11" class="spacing-input" value="0.750">
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mode-radio">
+                            <div class="input-group mb-2">
+                                <div class="input-group-text">
+                                    <input class="mode-radio" id="creation-mode-radio" type="radio" name="mode-radio"
+                                           value="create" checked>
+                                </div>
+                                <div class="creation-mode input-group">
+                                    <label class="input-group-text" for="creation-mode">Create</label>
+                                    <select class="form-select" id="creation-mode">
+                                        <option value="node">Node</option>
+                                        <option value="plate">Plate</option>
+                                        <option value="fastener">Fastener</option>
+                                        <option value="constraint">Constraint</option>
+                                        <option value="load">Load</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                    <input class="mode-radio" id="deletion-mode-radio" type="radio" name="mode-radio"
+                                           value="delete">
+                                </div>
+                                <div class="deletion-mode input-group">
+                                    <label class="input-group-text" for="deletion-mode">Delete</label>
+                                    <select class="form-select" id="deletion-mode">
+                                        <option value="node">Node</option>
+                                        <option value="plate">Plate</option>
+                                        <option value="fastener">Fastener</option>
+                                        <option value="constraint">Constraint</option>
+                                        <option value="load">Load</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="method mb-3">
+                                <span>Choose fastener flexibility formula:</span>
+                                <div class="method-type input-group">
+                                    <select class="form-select" id="method-type">
+                                        <option value="swift">Douglas (Swift)</option>
+                                        <option value="boeing">Boeing</option>
+                                        <option value="huth">Airbus (Huth)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="calc">
+                                <button id="calc" class="calc__button btn btn-primary">Calculate</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="part-selection col-6">
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="part-selection">
+                                <option value="plate-a">Part a</option>
+                                <option value="plate-b">Part b</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="results col-6 pe-3">
+        <div class="loads-summary">
+            <h5>Loads Summary</h5>
+            <table class="table table-bordered table-sm table-result-loads align-middle text-center">
+                <thead class="table-success text-center">
+                    <tr class="result-loads-row-section align-middle">
+                        <td>Part</td>
+                        <td>Node ID</td>
+                        <td>Thickness</td>
+                        <td>Area</td>
+                        <td>No. of fasteners</td>
+                        <td>Fastener Diameter</td>
+                        <td>Incoming Load</td>
+                        <td>Bypass Load</td>
+                        <td>Load Transfer</td>
+                    </tr>
+                </thead>
+                <tbody >
+                </tbody>
+            </table>
+        </div>
+        <div class="nodal-displacement-block">
+            <h5>Nodal Displacement Vector</h5>
+            <div class="nodal-displacement"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Material Database</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group mb-2">
+              <label for="input-material-datalist" class="form-label bg-white">Enter material</label>
+              <input type="text" class="form-control" placeholder="Aluminum" list="list-material" id="input-material-datalist">
+              <datalist id="list-material">
+                  <option value="aluminum">Aluminum</option>
+                  <option value="steel">Steel</option>
+                  <option value="titanium">Titanium</option>
+                </datalist>
+          </div>
+          <div class="form-group mb-2">
+              <label for="input-alloy-datalist" class="form-label bg-white">Enter alloy</label>
+              <input type="text" class="form-control" placeholder="2024" list="list-alloy" id="input-alloy-datalist">
+              <datalist id="list-alloy">
+                  <option value="2024">2024</option>
+                  <option value="7075">7075</option>
+                </datalist>
+          </div>
+          <div class="form-group mb-2">
+              <label for="input-spec-datalist" class="form-label bg-white">Enter specification</label>
+              <input type="text" class="form-control" placeholder="AMS 4028" list="list-spec" id="input-spec-datalist">
+              <datalist id="list-spec">
+                  <option>AMS-QQ-A-225/4</option>
+                  <option>AMS 4045</option>
+                </datalist>
+          </div>
+          <div class="form-group mb-2">
+              <label for="input-form-datalist" class="form-label bg-white">Enter form</label>
+              <input type="text" class="form-control" placeholder="Sheet" list="list-form" id="input-form-datalist">
+              <datalist id="list-form">
+                  <option value="sheet">Sheet</option>
+                  <option value="plate">Plate</option>
+                </datalist>
+          </div>
+          <div class="form-group mb-2">
+              <label for="input-ht-datalist" class="form-label bg-white">Enter heat treatment</label>
+              <input type="text" class="form-control" placeholder="T3" list="list-ht" id="input-ht-datalist">
+              <datalist id="list-ht">
+                  <option value="T3">T3</option>
+                  <option value="T6">T6</option>
+                </datalist>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close-modal">Close</button>
+        <button type="button" class="btn btn-primary" id="save-material">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src={%static "js/jquery.min.js" %}></script>
+<script src={%static "js/bootstrap.bundle.min.js" %} ></script>
+<script src={%static "js/bootstrap-autocomplete.min.js" %}></script>
+<script src={%static "js/joan.js" %} type="module"></script>
+<!--<script src="../static/js/jquery.min.js"></script>-->
+<!--<script src="../static/js/bootstrap.min.js"></script>-->
+<!--<script src="../static/js/joan.js" type="module"></script>-->
+</body>
+</html>

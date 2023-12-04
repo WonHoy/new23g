@@ -1,0 +1,109 @@
+.input-group-text, .form-select {
+    border-radius: 0;
+    font-size: 14px;
+}
+
+label {
+    background-color: #e2e3e5;
+}
+
+.form-select:focus, .form-control:focus {
+    border-color: var(--bs-border-color);
+    box-shadow: none;
+    outline: none;
+}
+
+.table {
+    border-radius: 0.75rem;
+    background: white;
+}
+
+td:focus, input:focus, select:focus {
+    outline: none;
+}
+
+.table-parts .part .col2, .table-fasteners .fastener .col2, .table-nodes thead .col4 {
+    padding: 0;
+}
+
+.table-nodes thead select {
+    background-color: var(--bs-table-bg);
+}
+
+select {
+    width: 100%;
+    outline: none;
+    border: 0;
+    padding: 0.25rem;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.plot {
+    position: fixed;
+    top: 32px;
+    left: 55%;
+}
+
+.canvas-wrapper {
+    position: relative;
+}
+
+canvas {
+    border: 1px solid black;
+}
+
+.canvas-wrapper input {
+    position: absolute;
+    top: 30px;
+    max-width: 40px;
+    font-size: 13px;
+    border: 0;
+    outline: none;
+    background: transparent;
+}
+
+#output {
+    padding: 1em;
+    border: 1px solid gray;
+}
+
+.part-selection {
+    display: none;
+}
+
+body {
+    font-size: 14px;
+}
+
+.creation-mode, .deletion-mode {
+    width: unset;
+}
+
+.calc__button {
+    padding: 5px 25px;
+}
+
+.modal-body input {
+    color: #000;
+}
+
+sup {
+    font-size: 10px;
+}
+
+.results {
+    display: none;
+}
+
+tr.part td:first-child {
+    white-space: nowrap;
+}
+
+
